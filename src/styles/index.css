@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties ── */
+:root {
+  --pink: #f472b6;
+  --purple: #c084fc;
+  --gold: #fbbf24;
+  --sky: #38bdf8;
+  --mint: #34d399;
+  --deep: #0d0010;
+  --dark: #14001a;
+  --orange: #fb923c;
+
+  /* Safe-area insets for notched phones */
+  --sai-top: env(safe-area-inset-top, 0px);
+  --sai-bottom: env(safe-area-inset-bottom, 0px);
+  --sai-left: env(safe-area-inset-left, 0px);
+  --sai-right: env(safe-area-inset-right, 0px);
+}
+
+/* ── Reset & Global ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  background: var(--deep);
+  color: #f9fafb;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@supports (height: 100dvh) {
+  html, body, #root {
+    height: 100dvh;
+  }
+}
+
+/* ── Mobile hardening ── */
+body {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent pull-to-refresh on Android Chrome */
+html {
+  overscroll-behavior-y: contain;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ── Stage container ── */
+.stage-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sai-top) var(--sai-right) var(--sai-bottom) var(--sai-left);
+  z-index: 10;
+}
+
+/* ── Particle canvas ── */
+.particle-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* ── Glass card ── */
+.glass-card {
+  position: relative;
+  max-width: 430px;
+  width: calc(100% - 40px);
+  margin: 0 auto;
+  padding: 32px 24px;
+  background: rgba(13, 0, 16, 0.72);
+  border: 1px solid rgba(244, 114, 182, 0.15);
+  border-radius: 24px;
+  text-align: center;
+  z-index: 20;
+}
+
+/* ── Primary button ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.15s ease;
+  will-change: transform;
+}
+
+.btn-primary:active {
+  transform: scale(0.94);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 28px;
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  border-radius: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(244, 114, 182, 0.9);
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-secondary:active {
+  transform: scale(0.94);
+}
+
+/* ── Typography helpers ── */
+.title-text {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  background: linear-gradient(135deg, var(--pink), var(--purple), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.3;
+}
+
+.subtitle-text {
+  font-size: clamp(0.9rem, 3.2vw, 1.05rem);
+  font-weight: 600;
+  color: rgba(249, 212, 236, 0.85);
+  line-height: 1.65;
+}
+
+/* ── Star field ── */
+.star-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at 20% 30%,
+    #1a003a 0%,
+    #0d0010 70%
+  );
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  will-change: transform, opacity;
+  animation: twinkle var(--d) ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.1;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+/* ── Room light ── */
+.room-light {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 1.5s ease, background 1.5s ease;
+}
+
+.room-light--warm {
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 45%,
+    rgba(255, 180, 80, 0.12) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+}
+
+.room-light--dim {
+  background: radial-gradient(
+    ellipse 50% 40% at 50% 45%,
+    rgba(255, 140, 50, 0.06) 0%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+}
+
+.room-light--dark {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Focus visible for a11y ── */
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 2px;
+}
