@@ -14,7 +14,8 @@ export const STAGES = [
   'cut',
   'memories1',
   'memories2',
-  'realGift',
+  'unwrap',
+  'letter',
   'finale',
 ] as const;
 
